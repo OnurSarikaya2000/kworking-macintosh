@@ -1,5 +1,6 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Image from "next/image";
 import { DesktopItemType } from "../types";
 
 interface DesktopItemProps {
@@ -9,6 +10,9 @@ interface DesktopItemProps {
 
 export default function DesktopItem({ item, onClick }: DesktopItemProps) {
     const itemRef = useRef<HTMLDivElement>(null);
+    const [imgError, setImgError] = useState(false);
+    const fallbackSvg =
+        'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" fill="%23888"/><text x="50%" y="50%" font-family="Arial" font-size="12" fill="white" text-anchor="middle" dominant-baseline="middle">?</text></svg>';
 
     const handleClick = () => {
         if (itemRef.current) {
@@ -32,16 +36,20 @@ export default function DesktopItem({ item, onClick }: DesktopItemProps) {
         >
             <div className="h-12 w-12 mb-1 flex items-center justify-center">
                 {item.icon.startsWith("/") ? (
-                    <img
-                        src={item.icon}
-                        alt={item.title}
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                            // Fallback icon for missing images
-                            e.currentTarget.src =
-                                'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" fill="%23888"/><text x="50%" y="50%" font-family="Arial" font-size="12" fill="white" text-anchor="middle" dominant-baseline="middle">?</text></svg>';
-                        }}
-                    />
+                    imgError ? (
+                        <div className="h-12 w-12 bg-[#888888] flex items-center justify-center text-white text-sm">
+                            ?
+                        </div>
+                    ) : (
+                        <Image
+                            src={item.icon}
+                            alt={item.title}
+                            width={48}
+                            height={48}
+                            className="max-h-full max-w-full object-contain"
+                            onError={() => setImgError(true)}
+                        />
+                    )
                 ) : (
                     <div className="h-12 w-12 bg-[#c0c0c0] border border-black flex items-center justify-center text-xl">
                         {item.icon}

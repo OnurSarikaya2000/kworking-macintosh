@@ -9,6 +9,7 @@ interface WindowProps {
     startPosition: { x: number; y: number };
     zIndex: number;
     onClose: () => void;
+    onFocus: () => void;
 }
 
 export default function Window({
@@ -17,6 +18,7 @@ export default function Window({
     startPosition,
     zIndex,
     onClose,
+    onFocus,
 }: WindowProps) {
     // Get default position once - don't reset when re-rendering
     const initialDefaultPosition = item.defaultPosition || { x: 50, y: 50 };
@@ -45,6 +47,9 @@ export default function Window({
 
     // Handle drag start
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Bring window to front when clicking anywhere on it
+        onFocus();
+
         // Only allow dragging from the title bar
         if (
             !(e.target instanceof HTMLElement) ||
@@ -65,6 +70,12 @@ export default function Window({
             // Prevent text selection during drag
             e.preventDefault();
         }
+    };
+
+    // Handle window click
+    const handleWindowClick = () => {
+        // Bring window to front when clicked
+        onFocus();
     };
 
     // Handle dragging
@@ -134,6 +145,7 @@ export default function Window({
                 zIndex,
                 cursor: isDragging ? "grabbing" : "default",
             }}
+            onClick={handleWindowClick}
         >
             {/* Window Title Bar */}
             <div
@@ -145,7 +157,10 @@ export default function Window({
                 </div>
                 <button
                     className="w-3 h-3 bg-white border border-black text-[8px] flex items-center justify-center leading-none"
-                    onClick={onClose}
+                    onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering window click
+                        onClose();
+                    }}
                 >
                     ✕
                 </button>

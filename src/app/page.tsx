@@ -85,8 +85,8 @@ const desktopItems: DesktopItemType[] = [
             <div>
                 <h2 className="text-lg font-bold mb-2">Get In Touch</h2>
                 <p className="mb-2">
-                    We'd love to hear from you! Reach out to schedule a tour or
-                    learn more.
+                    We&apos;d love to hear from you! Reach out to schedule a
+                    tour or learn more.
                 </p>
                 <ul className="space-y-1">
                     <li>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import DesktopItem from "./DesktopItem";
 import Window from "./Window";
@@ -14,6 +14,7 @@ interface OpenWindowState {
     item: DesktopItemType;
     status: "opening" | "open";
     startPosition: { x: number; y: number };
+    zIndex: number;
 }
 
 export default function Desktop({ items }: DesktopProps) {
@@ -21,6 +22,7 @@ export default function Desktop({ items }: DesktopProps) {
     const [windowInstanceCounter, setWindowInstanceCounter] = useState<
         Record<string, number>
     >({});
+    const [topZIndex, setTopZIndex] = useState(100);
 
     const handleItemClick = (
         item: DesktopItemType,
@@ -28,6 +30,8 @@ export default function Desktop({ items }: DesktopProps) {
     ) => {
         // Don't open duplicates
         if (openWindows.find((window) => window.item.id === item.id)) {
+            // If window is already open, bring it to front
+            bringWindowToFront(item.id);
             return;
         }
 
@@ -45,6 +49,10 @@ export default function Desktop({ items }: DesktopProps) {
             });
         }
 
+        // Increment top z-index
+        const newZIndex = topZIndex + 1;
+        setTopZIndex(newZIndex);
+
         // Start with 'opening' state - showing just a bounding box
         setOpenWindows([
             ...openWindows,
@@ -52,6 +60,7 @@ export default function Desktop({ items }: DesktopProps) {
                 item,
                 status: "opening",
                 startPosition: itemPosition,
+                zIndex: newZIndex,
             },
         ]);
 
@@ -71,10 +80,31 @@ export default function Desktop({ items }: DesktopProps) {
         setOpenWindows(openWindows.filter((window) => window.item.id !== id));
     };
 
+    const bringWindowToFront = useCallback(
+        (id: string) => {
+            // If window doesn't exist, do nothing
+            if (!openWindows.find((window) => window.item.id === id)) return;
+
+            // Increment top z-index
+            const newZIndex = topZIndex + 1;
+            setTopZIndex(newZIndex);
+
+            // Update the z-index of the target window
+            setOpenWindows((prev) =>
+                prev.map((window) =>
+                    window.item.id === id
+                        ? { ...window, zIndex: newZIndex }
+                        : window
+                )
+            );
+        },
+        [openWindows, topZIndex]
+    );
+
     return (
         <div className="relative h-screen w-screen bg-[#d9d9d9] overflow-hidden">
             {/* Menu Bar */}
-            <div className="h-6 w-full bg-white border-b border-black flex items-center px-2">
+            <div className="h-5 w-full bg-white border-b border-black flex items-center px-2">
                 <div className="flex space-x-1">
                     <Image
                         src="/apple-logo.svg"
@@ -98,7 +128,7 @@ export default function Desktop({ items }: DesktopProps) {
             </div>
 
             {/* Windows */}
-            {openWindows.map((windowState, index) => (
+            {openWindows.map((windowState) => (
                 <Window
                     key={`${windowState.item.id}-${
                         windowInstanceCounter[windowState.item.id] || 0
@@ -106,8 +136,9 @@ export default function Desktop({ items }: DesktopProps) {
                     item={windowState.item}
                     status={windowState.status}
                     startPosition={windowState.startPosition}
-                    zIndex={100 + index}
+                    zIndex={windowState.zIndex}
                     onClose={() => handleCloseWindow(windowState.item.id)}
+                    onFocus={() => bringWindowToFront(windowState.item.id)}
                 />
             ))}
         </div>
