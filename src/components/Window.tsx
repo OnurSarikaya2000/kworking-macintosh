@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { DesktopItemType } from "../types";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
+import PhotoLibrary from "./PhotoLibrary";
 
 interface WindowProps {
     item: DesktopItemType;
@@ -305,6 +306,8 @@ export default function Window({
                             WebkitUserSelect: "none",
                         }}
                     />
+                ) : item.type === "photo-library" ? (
+                    <PhotoLibrary />
                 ) : (
                     item.content
                 )}
