@@ -38,7 +38,6 @@ export default function Window({
     );
     const windowRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-    const dragPositionRef = useRef(position);
     const initialSizeRef = useRef(size);
     const initialPositionRef = useRef(position);
     const lastMouseRef = useRef({ x: 0, y: 0 });

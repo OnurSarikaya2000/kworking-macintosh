@@ -42,91 +42,9 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
     const [selectedItem, setSelectedItem] = useState<DesktopItemType | null>(
         null
     );
-    const [nextZIndex, setNextZIndex] = useState(1);
     const [draggingItem, setDraggingItem] = useState<DesktopItemType | null>(
         null
     );
-
-    const handleItemClick = (
-        item: DesktopItemType,
-        itemPosition: { x: number; y: number }
-    ) => {
-        // Don't open duplicates
-        if (openWindows.find((window) => window.item.id === item.id)) {
-            // If window is already open, bring it to front
-            bringWindowToFront(item.id);
-            return;
-        }
-
-        // Create a unique instance counter for this window ID if it's first time opening
-        if (windowInstanceCounter[item.id] === undefined) {
-            setWindowInstanceCounter({
-                ...windowInstanceCounter,
-                [item.id]: 0,
-            });
-        } else {
-            // Increment instance counter for this window ID
-            setWindowInstanceCounter({
-                ...windowInstanceCounter,
-                [item.id]: windowInstanceCounter[item.id] + 1,
-            });
-        }
-
-        // Increment top z-index
-        const newZIndex = topZIndex + 1;
-        setTopZIndex(newZIndex);
-
-        // Start with 'opening' state - showing just a bounding box
-        setOpenWindows([
-            ...openWindows,
-            {
-                item,
-                status: "opening",
-                startPosition: itemPosition,
-                zIndex: newZIndex,
-            },
-        ]);
-
-        // After a delay, change to 'open' to show full window with content
-        setTimeout(() => {
-            setOpenWindows((prev) =>
-                prev.map((window) =>
-                    window.item.id === item.id
-                        ? { ...window, status: "open" }
-                        : window
-                )
-            );
-        }, 400); // Slightly longer than the CSS animation to ensure proper sequence
-    };
-
-    const handleCloseWindow = (id: string) => {
-        setOpenWindows(openWindows.filter((window) => window.item.id !== id));
-    };
-
-    const bringWindowToFront = useCallback(
-        (id: string) => {
-            // If window doesn't exist, do nothing
-            if (!openWindows.find((window) => window.item.id === id)) return;
-
-            // Increment top z-index
-            const newZIndex = topZIndex + 1;
-            setTopZIndex(newZIndex);
-
-            // Update the z-index of the target window
-            setOpenWindows((prev) =>
-                prev.map((window) =>
-                    window.item.id === id
-                        ? { ...window, zIndex: newZIndex }
-                        : window
-                )
-            );
-        },
-        [openWindows, topZIndex]
-    );
-
-    const handleItemSelect = (item: DesktopItemType) => {
-        setSelectedItem(item);
-    };
 
     const handleItemOpen = (item: DesktopItemType) => {
         // Don't open duplicates
@@ -183,7 +101,36 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
         }, 400); // Slightly longer than the CSS animation to ensure proper sequence
     };
 
-    const handleDragStart = (item: DesktopItemType, x: number, y: number) => {
+    const handleCloseWindow = (id: string) => {
+        setOpenWindows(openWindows.filter((window) => window.item.id !== id));
+    };
+
+    const bringWindowToFront = useCallback(
+        (id: string) => {
+            // If window doesn't exist, do nothing
+            if (!openWindows.find((window) => window.item.id === id)) return;
+
+            // Increment top z-index
+            const newZIndex = topZIndex + 1;
+            setTopZIndex(newZIndex);
+
+            // Update the z-index of the target window
+            setOpenWindows((prev) =>
+                prev.map((window) =>
+                    window.item.id === id
+                        ? { ...window, zIndex: newZIndex }
+                        : window
+                )
+            );
+        },
+        [openWindows, topZIndex]
+    );
+
+    const handleItemSelect = (item: DesktopItemType) => {
+        setSelectedItem(item);
+    };
+
+    const handleDragStart = (item: DesktopItemType) => {
         setDraggingItem(item);
     };
 
@@ -228,7 +175,7 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
                         isSelected={selectedItem?.id === item.id}
                         onSelect={() => handleItemSelect(item)}
                         onOpen={() => handleItemOpen(item)}
-                        onDragStart={(x, y) => handleDragStart(item, x, y)}
+                        onDragStart={() => handleDragStart(item)}
                         onDragEnd={handleDragEnd}
                         onDragMove={handleDragMove}
                     />
