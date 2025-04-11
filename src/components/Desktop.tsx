@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Image from "next/image";
 import DesktopItem from "./DesktopItem";
 import Window from "./Window";
 import { DesktopItemType } from "../types";
-import TimeDisplay from "./TimeDisplay";
 import MenuBar from "./MenuBar";
 
 interface DesktopProps {

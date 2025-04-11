@@ -1,7 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
-
 export interface MenuItem {
     label: string;
     action?: () => void;

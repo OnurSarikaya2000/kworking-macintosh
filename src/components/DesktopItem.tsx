@@ -100,8 +100,8 @@ export default function DesktopItem({
                         <Image
                             src={item.icon}
                             alt={item.title}
-                            width={48}
-                            height={48}
+                            width={32}
+                            height={32}
                             onError={() => setImgError(true)}
                         />
                     )

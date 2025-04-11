@@ -6,7 +6,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "ueber-uns",
         title: "Über uns",
-        icon: "🏢",
+        icon: "/icons/about_us.png",
         type: "folder",
         position: { x: 100, y: 100 },
         defaultPosition: { x: 100, y: 100 },
@@ -32,7 +32,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "k-working-website",
         title: "K-Working Web",
-        icon: "🌐",
+        icon: "/icons/browser.png",
         type: "browser",
         position: { x: 200, y: 100 },
         defaultPosition: { x: 200, y: 100 },
@@ -42,7 +42,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "k-lar",
         title: "K-LAR",
-        icon: "🌐",
+        icon: "/icons/browser.png",
         type: "browser",
         position: { x: 200, y: 100 },
         defaultPosition: { x: 200, y: 100 },
@@ -52,7 +52,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "pakete",
         title: "Pakete",
-        icon: "💼",
+        icon: "/icons/packages.png",
         type: "folder",
         position: { x: 150, y: 150 },
         defaultPosition: { x: 150, y: 150 },
@@ -86,7 +86,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "oeffnungszeiten",
         title: "Öffnungszeiten",
-        icon: "🕒",
+        icon: "/icons/clock.png",
         type: "folder",
         position: { x: 200, y: 200 },
         defaultPosition: { x: 200, y: 200 },
@@ -117,7 +117,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "kontakt",
         title: "Kontakt",
-        icon: "📞",
+        icon: "/icons/contact.png",
         type: "folder",
         position: { x: 250, y: 250 },
         defaultPosition: { x: 250, y: 250 },
@@ -155,7 +155,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "ausstattung",
         title: "Ausstattung",
-        icon: "✨",
+        icon: "/icons/ausstattung.png",
         type: "folder",
         position: { x: 300, y: 300 },
         defaultPosition: { x: 300, y: 300 },
@@ -179,7 +179,7 @@ const desktopItems: DesktopItemType[] = [
     {
         id: "photo-library",
         title: "Photo Library",
-        icon: "📷",
+        icon: "/icons/photos.png",
         type: "photo-library",
         position: { x: 350, y: 100 },
         defaultPosition: { x: 350, y: 100 },
