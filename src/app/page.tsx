@@ -34,9 +34,9 @@ const desktopItems: DesktopItemType[] = [
         title: "K-Working",
         icon: "/icons/browser.png",
         type: "browser",
-        position: { x: 200, y: 100 },
-        defaultPosition: { x: 200, y: 100 },
-        defaultSize: { width: 800, height: 600 },
+        position: { x: 80, y: 80 },
+        defaultPosition: { x: 80, y: 80 },
+        defaultSize: { width: 1000, height: 600 },
         content: "https://k-working.de",
     },
     {
