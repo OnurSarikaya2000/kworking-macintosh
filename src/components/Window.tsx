@@ -23,20 +23,27 @@ export default function Window({
     // Get default position once - don't reset when re-rendering
     const initialDefaultPosition = item.defaultPosition || { x: 50, y: 50 };
     const [position, setPosition] = useState(initialDefaultPosition);
-
-    // Store size as a ref to avoid reset on re-render
-    const [size] = useState(item.defaultSize || { width: 400, height: 300 });
-
+    const [size, setSize] = useState(
+        item.defaultSize || { width: 400, height: 300 }
+    );
     const [isDragging, setIsDragging] = useState(false);
+    const [isResizing, setIsResizing] = useState(false);
+    const [resizeDirection, setResizeDirection] = useState<
+        "nw" | "ne" | "sw" | "se" | null
+    >(null);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [hasAnimated, setHasAnimated] = useState(false);
     const windowRef = useRef<HTMLDivElement>(null);
     const dragPositionRef = useRef(position);
+    const initialSizeRef = useRef(size);
+    const initialPositionRef = useRef(position);
+    const lastMouseRef = useRef({ x: 0, y: 0 });
 
-    // Keep the ref updated with latest position
+    // Keep refs in sync with state
     useEffect(() => {
-        dragPositionRef.current = position;
-    }, [position]);
+        initialSizeRef.current = size;
+        initialPositionRef.current = position;
+    }, [size, position]);
 
     // Track transition from 'opening' to 'open' to play animation only once
     useEffect(() => {
@@ -105,6 +112,72 @@ export default function Window({
         };
     }, [isDragging, dragOffset]);
 
+    // Handle resize start
+    const handleResizeStart = (
+        e: React.MouseEvent<HTMLDivElement>,
+        direction: "nw" | "ne" | "sw" | "se"
+    ) => {
+        e.stopPropagation();
+        e.preventDefault();
+        onFocus();
+        setIsResizing(true);
+        setResizeDirection(direction);
+        lastMouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    // Handle resize
+    useEffect(() => {
+        if (!isResizing) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            e.preventDefault();
+            const deltaX = e.clientX - lastMouseRef.current.x;
+            const deltaY = e.clientY - lastMouseRef.current.y;
+            const newSize = { ...size };
+            const newPosition = { ...position };
+
+            switch (resizeDirection) {
+                case "nw":
+                    newSize.width = Math.max(200, size.width - deltaX);
+                    newSize.height = Math.max(200, size.height - deltaY);
+                    newPosition.x = position.x + deltaX;
+                    newPosition.y = position.y + deltaY;
+                    break;
+                case "ne":
+                    newSize.width = Math.max(200, size.width + deltaX);
+                    newSize.height = Math.max(200, size.height - deltaY);
+                    newPosition.y = position.y + deltaY;
+                    break;
+                case "sw":
+                    newSize.width = Math.max(200, size.width - deltaX);
+                    newSize.height = Math.max(200, size.height + deltaY);
+                    newPosition.x = position.x + deltaX;
+                    break;
+                case "se":
+                    newSize.width = Math.max(200, size.width + deltaX);
+                    newSize.height = Math.max(200, size.height + deltaY);
+                    break;
+            }
+
+            setSize(newSize);
+            setPosition(newPosition);
+            lastMouseRef.current = { x: e.clientX, y: e.clientY };
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+            setResizeDirection(null);
+        };
+
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+
+        return () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, [isResizing, resizeDirection, size, position]);
+
     // Calculate animation properties based on status
     const getAnimationStyles = () => {
         if (status === "opening") {
@@ -158,7 +231,7 @@ export default function Window({
                 <button
                     className="w-3 h-3 bg-white border border-black text-[8px] flex items-center justify-center leading-none"
                     onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering window click
+                        e.stopPropagation();
                         onClose();
                     }}
                 >
@@ -178,6 +251,24 @@ export default function Window({
             >
                 {item.content}
             </div>
+
+            {/* Resize Handles */}
+            <div
+                className="resize-handle resize-handle-nw absolute top-0 left-0 w-3 h-3 cursor-nw-resize"
+                onMouseDown={(e) => handleResizeStart(e, "nw")}
+            />
+            <div
+                className="resize-handle resize-handle-ne absolute top-0 right-0 w-3 h-3 cursor-ne-resize"
+                onMouseDown={(e) => handleResizeStart(e, "ne")}
+            />
+            <div
+                className="resize-handle resize-handle-sw absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize"
+                onMouseDown={(e) => handleResizeStart(e, "sw")}
+            />
+            <div
+                className="resize-handle resize-handle-se absolute bottom-0 right-0 w-3 h-3 cursor-se-resize"
+                onMouseDown={(e) => handleResizeStart(e, "se")}
+            />
         </div>
     );
 }

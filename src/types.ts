@@ -2,7 +2,8 @@ export interface DesktopItemType {
     id: string;
     title: string;
     icon: string;
-    content: React.ReactNode;
+    type: "file" | "folder";
+    position: { x: number; y: number };
     defaultPosition?: {
         x: number;
         y: number;
@@ -11,4 +12,5 @@ export interface DesktopItemType {
         width: number;
         height: number;
     };
+    content: React.ReactNode;
 }

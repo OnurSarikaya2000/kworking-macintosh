@@ -7,6 +7,10 @@ const desktopItems: DesktopItemType[] = [
         id: "ueber-uns",
         title: "Über uns",
         icon: "🏢",
+        type: "folder",
+        position: { x: 100, y: 100 },
+        defaultPosition: { x: 100, y: 100 },
+        defaultSize: { width: 350, height: 250 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">
@@ -24,13 +28,15 @@ const desktopItems: DesktopItemType[] = [
                 </p>
             </div>
         ),
-        defaultPosition: { x: 100, y: 100 },
-        defaultSize: { width: 350, height: 250 },
     },
     {
         id: "pakete",
         title: "Pakete",
         icon: "💼",
+        type: "folder",
+        position: { x: 150, y: 150 },
+        defaultPosition: { x: 150, y: 150 },
+        defaultSize: { width: 350, height: 300 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Unsere Angebote</h2>
@@ -56,13 +62,15 @@ const desktopItems: DesktopItemType[] = [
                 </ul>
             </div>
         ),
-        defaultPosition: { x: 150, y: 150 },
-        defaultSize: { width: 350, height: 300 },
     },
     {
         id: "oeffnungszeiten",
         title: "Öffnungszeiten",
         icon: "🕒",
+        type: "folder",
+        position: { x: 200, y: 200 },
+        defaultPosition: { x: 200, y: 200 },
+        defaultSize: { width: 300, height: 220 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">
@@ -85,13 +93,15 @@ const desktopItems: DesktopItemType[] = [
                 </p>
             </div>
         ),
-        defaultPosition: { x: 200, y: 200 },
-        defaultSize: { width: 300, height: 220 },
     },
     {
         id: "kontakt",
         title: "Kontakt",
         icon: "📞",
+        type: "folder",
+        position: { x: 250, y: 250 },
+        defaultPosition: { x: 250, y: 250 },
+        defaultSize: { width: 320, height: 250 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Kontaktiere uns</h2>
@@ -121,13 +131,15 @@ const desktopItems: DesktopItemType[] = [
                 </ul>
             </div>
         ),
-        defaultPosition: { x: 250, y: 250 },
-        defaultSize: { width: 320, height: 250 },
     },
     {
         id: "ausstattung",
         title: "Ausstattung",
         icon: "✨",
+        type: "folder",
+        position: { x: 300, y: 300 },
+        defaultPosition: { x: 300, y: 300 },
+        defaultSize: { width: 350, height: 350 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Unsere Ausstattung</h2>
@@ -143,14 +155,12 @@ const desktopItems: DesktopItemType[] = [
                 </ul>
             </div>
         ),
-        defaultPosition: { x: 300, y: 300 },
-        defaultSize: { width: 350, height: 350 },
     },
 ];
 
 export default function Home() {
     return (
-        <main>
+        <main className="min-h-screen bg-[#008080]">
             <Desktop items={desktopItems} />
         </main>
     );
