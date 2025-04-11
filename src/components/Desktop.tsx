@@ -6,6 +6,7 @@ import DesktopItem from "./DesktopItem";
 import Window from "./Window";
 import { DesktopItemType } from "../types";
 import TimeDisplay from "./TimeDisplay";
+import MenuBar from "./MenuBar";
 
 interface DesktopProps {
     items: DesktopItemType[];
@@ -45,6 +46,7 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
     const [draggingItem, setDraggingItem] = useState<DesktopItemType | null>(
         null
     );
+    const [showAboutWindow, setShowAboutWindow] = useState(false);
 
     const handleItemOpen = (item: DesktopItemType) => {
         // Don't open duplicates
@@ -150,21 +152,41 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
         setDraggingItem(null);
     };
 
+    const handleAboutClick = () => {
+        setShowAboutWindow(true);
+    };
+
+    const aboutWindowItem: DesktopItemType = {
+        id: "about",
+        title: "About This Mac",
+        icon: "ℹ️",
+        type: "folder",
+        position: { x: 100, y: 100 },
+        defaultPosition: { x: 100, y: 100 },
+        defaultSize: { width: 400, height: 300 },
+        content: (
+            <div className="flex flex-col items-center justify-center h-full">
+                <div className="mb-4">
+                    <img
+                        src="/apple-logo.svg"
+                        alt="Apple Logo"
+                        width={64}
+                        height={64}
+                    />
+                </div>
+                <h1 className="text-xl font-bold mb-2">K-Working</h1>
+                <p className="text-sm text-center mb-4">Version 1.0.0 (Beta)</p>
+                <div className="text-xs text-center text-gray-600">
+                    <p>© 2024 K-Working</p>
+                    <p>All rights reserved.</p>
+                </div>
+            </div>
+        ),
+    };
+
     return (
         <div className="relative h-screen w-screen bg-[#d9d9d9] overflow-hidden">
-            {/* Menu Bar */}
-            <div className="h-6 w-full bg-white border-b border-black flex items-center justify-between p-2">
-                <div className="flex space-x-2">
-                    <Image
-                        src="/apple-logo.svg"
-                        alt="Apple"
-                        width={12}
-                        height={12}
-                    />{" "}
-                    <p className="text-xs font-bold">K-Working</p>
-                </div>
-                <TimeDisplay />
-            </div>
+            <MenuBar onAboutClick={handleAboutClick} />
 
             {/* Desktop Items */}
             <div className="absolute inset-0 pt-5">
@@ -196,6 +218,21 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
                     onFocus={() => bringWindowToFront(windowState.item.id)}
                 />
             ))}
+
+            {/* About Window */}
+            {showAboutWindow && (
+                <Window
+                    item={aboutWindowItem}
+                    status="open"
+                    startPosition={{
+                        x: window.innerWidth / 2 - 200,
+                        y: window.innerHeight / 2 - 150,
+                    }}
+                    zIndex={topZIndex + 1}
+                    onClose={() => setShowAboutWindow(false)}
+                    onFocus={() => setTopZIndex((prev) => prev + 1)}
+                />
+            )}
         </div>
     );
 }
