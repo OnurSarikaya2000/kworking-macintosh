@@ -40,23 +40,13 @@ const desktopItems: DesktopItemType[] = [
         content: "https://k-working.de",
     },
     {
-        id: "k-lar",
-        title: "K-LAR",
-        icon: "/icons/browser.png",
-        type: "browser",
-        position: { x: 200, y: 100 },
-        defaultPosition: { x: 200, y: 100 },
-        defaultSize: { width: 800, height: 600 },
-        content: "https://k-lar.de",
-    },
-    {
         id: "pakete",
         title: "Pakete",
         icon: "/icons/packages.png",
         type: "folder",
         position: { x: 150, y: 150 },
         defaultPosition: { x: 150, y: 150 },
-        defaultSize: { width: 350, height: 400 },
+        defaultSize: { width: 350, height: 470 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Unsere Angebote</h2>
@@ -75,11 +65,21 @@ const desktopItems: DesktopItemType[] = [
                         Dein eigener Schreibtisch, den du jederzeit nutzen
                         kannst
                     </li>
-                    <li>
+                    <li className="border-b pb-1">
                         <strong>Virtuelles Büro:</strong> 99,00 €/Monat –
                         Geschäftsadresse und Briefkastenservice
                     </li>
                 </ul>
+                <div className="mt-4">
+                    <a
+                        href="https://www.k-working.de/plans-pricing/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+                    >
+                        Jetzt Buchen
+                    </a>
+                </div>
             </div>
         ),
     },
