@@ -31,7 +31,7 @@ const desktopItems: DesktopItemType[] = [
     },
     {
         id: "k-working-website",
-        title: "K-Working Web",
+        title: "K-Working",
         icon: "/icons/browser.png",
         type: "browser",
         position: { x: 200, y: 100 },
@@ -85,7 +85,7 @@ const desktopItems: DesktopItemType[] = [
     },
     {
         id: "oeffnungszeiten",
-        title: "Öffnungszeiten",
+        title: "Zeiten",
         icon: "/icons/clock.png",
         type: "folder",
         position: { x: 200, y: 200 },
@@ -178,7 +178,7 @@ const desktopItems: DesktopItemType[] = [
     },
     {
         id: "photo-library",
-        title: "Photo Library",
+        title: "Fotos",
         icon: "/icons/photos.png",
         type: "photo-library",
         position: { x: 350, y: 100 },
