@@ -290,22 +290,31 @@ export default function Window({
                 )}
 
                 {item.type === "browser" ? (
-                    <iframe
-                        ref={iframeRef}
-                        src={url}
-                        className={`w-full h-full border-0 ${
-                            isDragging || isResizing
-                                ? "pointer-events-none"
-                                : ""
-                        }`}
-                        title={item.title}
+                    <div
                         style={{
-                            pointerEvents:
-                                isDragging || isResizing ? "none" : "auto",
-                            userSelect: "none",
-                            WebkitUserSelect: "none",
+                            width: "125%",
+                            height: "125%",
+                            transform: "scale(0.8)",
+                            transformOrigin: "top left",
                         }}
-                    />
+                    >
+                        <iframe
+                            ref={iframeRef}
+                            src={url}
+                            className={`w-full h-full border-0 ${
+                                isDragging || isResizing
+                                    ? "pointer-events-none"
+                                    : ""
+                            }`}
+                            title={item.title}
+                            style={{
+                                pointerEvents:
+                                    isDragging || isResizing ? "none" : "auto",
+                                userSelect: "none",
+                                WebkitUserSelect: "none",
+                            }}
+                        />
+                    </div>
                 ) : item.type === "photo-library" ? (
                     <PhotoLibrary />
                 ) : (
