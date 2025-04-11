@@ -10,7 +10,7 @@ const desktopItems: DesktopItemType[] = [
         type: "folder",
         position: { x: 100, y: 100 },
         defaultPosition: { x: 100, y: 100 },
-        defaultSize: { width: 350, height: 250 },
+        defaultSize: { width: 350, height: 300 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">
@@ -30,13 +30,33 @@ const desktopItems: DesktopItemType[] = [
         ),
     },
     {
+        id: "k-working-website",
+        title: "K-Working Web",
+        icon: "🌐",
+        type: "browser",
+        position: { x: 200, y: 100 },
+        defaultPosition: { x: 200, y: 100 },
+        defaultSize: { width: 800, height: 600 },
+        content: "https://k-working.de",
+    },
+    {
+        id: "k-lar",
+        title: "K-LAR",
+        icon: "🌐",
+        type: "browser",
+        position: { x: 200, y: 100 },
+        defaultPosition: { x: 200, y: 100 },
+        defaultSize: { width: 800, height: 600 },
+        content: "https://k-lar.de",
+    },
+    {
         id: "pakete",
         title: "Pakete",
         icon: "💼",
         type: "folder",
         position: { x: 150, y: 150 },
         defaultPosition: { x: 150, y: 150 },
-        defaultSize: { width: 350, height: 300 },
+        defaultSize: { width: 350, height: 400 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Unsere Angebote</h2>
@@ -70,7 +90,7 @@ const desktopItems: DesktopItemType[] = [
         type: "folder",
         position: { x: 200, y: 200 },
         defaultPosition: { x: 200, y: 200 },
-        defaultSize: { width: 300, height: 220 },
+        defaultSize: { width: 300, height: 300 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">
@@ -101,7 +121,7 @@ const desktopItems: DesktopItemType[] = [
         type: "folder",
         position: { x: 250, y: 250 },
         defaultPosition: { x: 250, y: 250 },
-        defaultSize: { width: 320, height: 250 },
+        defaultSize: { width: 320, height: 300 },
         content: (
             <div>
                 <h2 className="text-lg font-bold mb-2">Kontaktiere uns</h2>

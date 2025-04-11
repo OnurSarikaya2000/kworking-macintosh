@@ -33,7 +33,11 @@ export default function Window({
     >(null);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [hasAnimated, setHasAnimated] = useState(false);
+    const [url, setUrl] = useState(
+        item.type === "browser" ? (item.content as string) : ""
+    );
     const windowRef = useRef<HTMLDivElement>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
     const dragPositionRef = useRef(position);
     const initialSizeRef = useRef(size);
     const initialPositionRef = useRef(position);
@@ -222,7 +226,7 @@ export default function Window({
         >
             {/* Window Title Bar */}
             <div
-                className="window-title-bar h-5 bg-[#c0c0c0] border-b border-black flex items-center justify-between px-1"
+                className="window-title-bar h-5 bg-[#c0c0c0] border-b border-black flex items-center justify-between px-1 z-30"
                 onMouseDown={handleMouseDown}
             >
                 <div className="flex-1 text-center text-xs font-bold">
@@ -239,34 +243,88 @@ export default function Window({
                 </button>
             </div>
 
+            {/* Browser Toolbar - Only show for browser type */}
+            {item.type === "browser" && (
+                <div className="h-6 bg-[#c0c0c0] border-b border-black flex items-center px-2 z-30">
+                    <div className="flex space-x-1">
+                        <button className="w-4 h-4 bg-white border border-black text-[8px] flex items-center justify-center">
+                            ←
+                        </button>
+                        <button className="w-4 h-4 bg-white border border-black text-[8px] flex items-center justify-center">
+                            →
+                        </button>
+                    </div>
+                    <div className="flex-1 mx-2">
+                        <input
+                            type="text"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className="w-full h-4 px-1 text-xs border border-black bg-white"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    // Handle URL change
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+
             {/* Window Content */}
             <div
-                className="window-content p-2 overflow-auto"
+                className="window-content p-2 overflow-auto relative"
                 style={{
-                    height: "calc(100% - 20px)",
+                    height:
+                        item.type === "browser"
+                            ? `calc(100% - ${20 + 25}px)` // 5px for title bar, 6px for toolbar
+                            : `calc(100% - ${20}px)`, // 5px for title bar
                     opacity: status === "opening" ? 0 : 1,
                     transition: "opacity 0.2s ease-in",
                     transitionDelay: "0.3s",
                 }}
             >
-                {item.content}
+                {/* Transparent overlay when dragging or resizing */}
+                {(isDragging || isResizing) && (
+                    <div className="absolute inset-0 bg-transparent z-20" />
+                )}
+
+                {item.type === "browser" ? (
+                    <iframe
+                        ref={iframeRef}
+                        src={url}
+                        className={`w-full h-full border-0 ${
+                            isDragging || isResizing
+                                ? "pointer-events-none"
+                                : ""
+                        }`}
+                        title={item.title}
+                        style={{
+                            pointerEvents:
+                                isDragging || isResizing ? "none" : "auto",
+                            userSelect: "none",
+                            WebkitUserSelect: "none",
+                        }}
+                    />
+                ) : (
+                    item.content
+                )}
             </div>
 
             {/* Resize Handles */}
             <div
-                className="resize-handle resize-handle-nw absolute top-0 left-0 w-3 h-3 cursor-nw-resize"
+                className="resize-handle resize-handle-nw absolute top-0 left-0 w-3 h-3 cursor-nw-resize z-30"
                 onMouseDown={(e) => handleResizeStart(e, "nw")}
             />
             <div
-                className="resize-handle resize-handle-ne absolute top-0 right-0 w-3 h-3 cursor-ne-resize"
+                className="resize-handle resize-handle-ne absolute top-0 right-0 w-3 h-3 cursor-ne-resize z-30"
                 onMouseDown={(e) => handleResizeStart(e, "ne")}
             />
             <div
-                className="resize-handle resize-handle-sw absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize"
+                className="resize-handle resize-handle-sw absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-30"
                 onMouseDown={(e) => handleResizeStart(e, "sw")}
             />
             <div
-                className="resize-handle resize-handle-se absolute bottom-0 right-0 w-3 h-3 cursor-se-resize"
+                className="resize-handle resize-handle-se absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-30"
                 onMouseDown={(e) => handleResizeStart(e, "se")}
             />
         </div>
