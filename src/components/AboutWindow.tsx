@@ -12,7 +12,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             {/* Title Bar */}
             <div className="h-5 bg-[#c0c0c0] border-b border-black flex items-center justify-between px-1">
                 <div className="flex-1 text-center text-xs font-bold">
-                    About This Mac
+                    About K-Working
                 </div>
                 <button
                     className="w-3 h-3 bg-white border border-black text-[8px] flex items-center justify-center leading-none cursor-pointer"
@@ -26,8 +26,8 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             <div className="flex-1 p-4 flex flex-col items-center justify-center">
                 <div className="mb-4">
                     <Image
-                        src="/apple-logo.svg"
-                        alt="Apple Logo"
+                        src="/k-working.jpg"
+                        alt="K-Working Logo"
                         width={64}
                         height={64}
                     />

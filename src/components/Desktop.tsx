@@ -156,7 +156,7 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
 
     const aboutWindowItem: DesktopItemType = {
         id: "about",
-        title: "About This Mac",
+        title: "About K-Working",
         icon: "ℹ️",
         type: "folder",
         position: { x: 100, y: 100 },
