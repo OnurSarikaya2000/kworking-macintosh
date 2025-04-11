@@ -5,6 +5,7 @@ import Image from "next/image";
 import DesktopItem from "./DesktopItem";
 import Window from "./Window";
 import { DesktopItemType } from "../types";
+import TimeDisplay from "./TimeDisplay";
 
 interface DesktopProps {
     items: DesktopItemType[];
@@ -205,16 +206,17 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
     return (
         <div className="relative h-screen w-screen bg-[#d9d9d9] overflow-hidden">
             {/* Menu Bar */}
-            <div className="h-5 w-full bg-white border-b border-black flex items-center px-2">
-                <div className="flex space-x-1">
+            <div className="h-6 w-full bg-white border-b border-black flex items-center justify-between p-2">
+                <div className="flex space-x-2">
                     <Image
                         src="/apple-logo.svg"
                         alt="Apple"
                         width={12}
                         height={12}
-                        className="mt-0.5"
-                    />
+                    />{" "}
+                    <p className="text-xs font-bold">K-Working</p>
                 </div>
+                <TimeDisplay />
             </div>
 
             {/* Desktop Items */}
