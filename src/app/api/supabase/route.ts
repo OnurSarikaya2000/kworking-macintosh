@@ -56,20 +56,28 @@ export async function POST(request: Request) {
             );
         }
 
-        // Save to database
-        const { error: dbError } = await supabase.from("photos").insert({
-            url: pixelatedUrl, // Store the pixelated URL as the main URL
-            pixelated_url: pixelatedUrl,
-            uploaded_at: new Date().toISOString(),
-            uploaded_by: "user",
-        });
+        // Save to database and get the inserted data
+        const { data: insertedData, error: dbError } = await supabase
+            .from("photos")
+            .insert({
+                url: pixelatedUrl, // Store the pixelated URL as the main URL
+                pixelated_url: pixelatedUrl,
+                uploaded_at: new Date().toISOString(),
+                uploaded_by: "user",
+            })
+            .select()
+            .single();
 
         if (dbError) {
             console.error("Database insert error:", dbError);
             throw dbError;
         }
 
-        return NextResponse.json({ success: true });
+        if (!insertedData) {
+            throw new Error("Failed to get inserted photo data");
+        }
+
+        return NextResponse.json(insertedData);
     } catch (error) {
         console.error("Error in POST handler:", error);
         return NextResponse.json(
