@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { DesktopItemType } from "../types";
+import { X, ArrowLeft, ArrowRight } from "lucide-react";
 
 interface WindowProps {
     item: DesktopItemType;
@@ -232,13 +233,13 @@ export default function Window({
                     {item.title}
                 </div>
                 <button
-                    className="w-3 h-3 bg-white border border-black text-[8px] flex items-center justify-center leading-none"
+                    className="w-3 h-3 bg-white border border-black text-[8px] flex items-center justify-center leading-none  cursor-pointer"
                     onClick={(e) => {
                         e.stopPropagation();
                         onClose();
                     }}
                 >
-                    ✕
+                    <X />
                 </button>
             </div>
 
@@ -247,10 +248,10 @@ export default function Window({
                 <div className="h-6 bg-[#c0c0c0] border-b border-black flex items-center px-2 z-30">
                     <div className="flex space-x-1">
                         <button className="w-4 h-4 bg-white border border-black text-[8px] flex items-center justify-center">
-                            ←
+                            <ArrowLeft />
                         </button>
                         <button className="w-4 h-4 bg-white border border-black text-[8px] flex items-center justify-center">
-                            →
+                            <ArrowRight />
                         </button>
                     </div>
                     <div className="flex-1 mx-2">
