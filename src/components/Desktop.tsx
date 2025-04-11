@@ -166,16 +166,16 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
             <div className="flex flex-col items-center justify-center h-full">
                 <div className="mb-4">
                     <img
-                        src="/apple-logo.svg"
-                        alt="Apple Logo"
+                        src="/k-working.jpg"
+                        alt="K-Working Logo"
                         width={64}
                         height={64}
                     />
                 </div>
                 <h1 className="text-xl font-bold mb-2">K-Working</h1>
-                <p className="text-sm text-center mb-4">Version 1.0.0 (Beta)</p>
+                <p className="text-sm text-center mb-4">Version 1.0.0</p>
                 <div className="text-xs text-center text-gray-600">
-                    <p>© 2024 K-Working</p>
+                    <p>© 2025 K-Working</p>
                     <p>All rights reserved.</p>
                 </div>
             </div>
