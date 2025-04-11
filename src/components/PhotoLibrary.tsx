@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { Photo } from "../types";
-import { Upload, Image as ImageIcon } from "lucide-react";
+import { Upload } from "lucide-react";
+import Image from "next/image";
 
 export default function PhotoLibrary() {
     const [photos, setPhotos] = useState<Photo[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [pixelationLevel, setPixelationLevel] = useState(3);
+    const [pixelationLevel] = useState(3);
 
     // Load photos on component mount
     useEffect(() => {
@@ -49,8 +50,10 @@ export default function PhotoLibrary() {
         setIsUploading(true);
         setError(null);
 
-        let controller: AbortController | null = null;
+        let controller: AbortController | null = new AbortController();
         let timeout: NodeJS.Timeout | null = null;
+        let retryCount = 0;
+        const maxRetries = 3;
 
         try {
             console.log("Starting image processing...");
@@ -65,23 +68,63 @@ export default function PhotoLibrary() {
 
             // Prepare form data
             const formData = new FormData();
-            formData.append("file", file);
-            formData.append("pixelationLevel", pixelationLevel.toString());
             formData.append("pixelatedUrl", pixelatedUrl);
 
+            const uploadWithRetry = async (): Promise<Response> => {
+                try {
+                    if (!controller) {
+                        throw new Error("Upload aborted");
+                    }
+                    const response = await fetch("/api/supabase", {
+                        method: "POST",
+                        body: formData,
+                        signal: controller.signal,
+                    });
+
+                    if (response.status === 429) {
+                        // Rate limit exceeded
+                        if (retryCount < maxRetries) {
+                            retryCount++;
+                            const retryAfter = parseInt(
+                                response.headers.get("Retry-After") || "5"
+                            );
+                            console.log(
+                                `Rate limited, retrying after ${retryAfter} seconds...`
+                            );
+                            await new Promise((resolve) =>
+                                setTimeout(resolve, retryAfter * 1000)
+                            );
+                            return uploadWithRetry();
+                        }
+                        throw new Error(
+                            "Rate limit exceeded after multiple retries"
+                        );
+                    }
+
+                    return response;
+                } catch (error) {
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        console.log(
+                            `Upload failed, retrying (${retryCount}/${maxRetries})...`
+                        );
+                        await new Promise((resolve) =>
+                            setTimeout(resolve, 1000 * retryCount)
+                        );
+                        return uploadWithRetry();
+                    }
+                    throw error;
+                }
+            };
+
             // Upload to our API with timeout
-            controller = new AbortController();
             timeout = setTimeout(() => {
                 console.log("Upload timeout reached, aborting...");
                 controller?.abort();
             }, 60000); // 60 second timeout
 
             console.log("Starting API upload...");
-            const response = await fetch("/api/supabase", {
-                method: "POST",
-                body: formData,
-                signal: controller.signal,
-            });
+            const response = await uploadWithRetry();
 
             if (timeout) {
                 clearTimeout(timeout);
@@ -94,10 +137,9 @@ export default function PhotoLibrary() {
                 throw new Error(errorData.error || "Failed to upload photo");
             }
 
-            // Reload photos
-            console.log("Reloading photos...");
-            await loadPhotos();
-            console.log("Photos reloaded successfully");
+            // Instead of reloading all photos, just add the new one to the state
+            const newPhoto = await response.json();
+            setPhotos((prevPhotos) => [newPhoto, ...prevPhotos]);
         } catch (error) {
             console.error("Error in upload process:", error);
             setError(
@@ -110,6 +152,8 @@ export default function PhotoLibrary() {
             if (timeout) {
                 clearTimeout(timeout);
             }
+            // Clean up the controller
+            controller = null;
             // Ensure we reset the uploading state
             setIsUploading(false);
             console.log("Upload process completed, isUploading set to false");
@@ -128,7 +172,7 @@ export default function PhotoLibrary() {
 
             const reader = new FileReader();
             reader.onload = (e) => {
-                const img = new Image();
+                const img = new window.Image();
                 img.onload = () => {
                     try {
                         const canvas = document.createElement("canvas");
@@ -226,9 +270,11 @@ export default function PhotoLibrary() {
             <div className="grid grid-cols-3 gap-4">
                 {photos.map((photo) => (
                     <div key={photo.id} className="relative group">
-                        <img
+                        <Image
                             src={photo.pixelated_url}
                             alt="Pixelated"
+                            width={300}
+                            height={200}
                             className="w-full h-48 object-cover border border-black"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

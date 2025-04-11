@@ -47,51 +47,18 @@ export async function POST(request: Request) {
         }
 
         const formData = await request.formData();
-        const file = formData.get("file") as File;
-        const pixelationLevel = formData.get("pixelationLevel") as string;
         const pixelatedUrl = formData.get("pixelatedUrl") as string;
 
-        if (!file) {
+        if (!pixelatedUrl) {
             return NextResponse.json(
-                { error: "No file provided" },
+                { error: "No pixelated image provided" },
                 { status: 400 }
             );
         }
 
-        // Check if the bucket exists, create it if it doesn't
-        const { data: buckets, error: bucketListError } =
-            await supabase.storage.listBuckets();
-        if (bucketListError) throw bucketListError;
-
-        if (!buckets?.some((bucket) => bucket.name === "photos")) {
-            const { error: bucketError } = await supabase.storage.createBucket(
-                "photos",
-                {
-                    public: false,
-                }
-            );
-            if (bucketError) throw bucketError;
-        }
-
-        // Generate a unique filename
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Date.now()}-${Math.random()
-            .toString(36)
-            .substring(2)}.${fileExt}`;
-
-        // Upload original image
-        const { data: uploadData, error: uploadError } = await supabase.storage
-            .from("photos")
-            .upload(fileName, file);
-
-        if (uploadError) {
-            console.error("Storage upload error:", uploadError);
-            throw uploadError;
-        }
-
         // Save to database
         const { error: dbError } = await supabase.from("photos").insert({
-            url: fileName,
+            url: pixelatedUrl, // Store the pixelated URL as the main URL
             pixelated_url: pixelatedUrl,
             uploaded_at: new Date().toISOString(),
             uploaded_by: "user",
