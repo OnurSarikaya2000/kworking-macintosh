@@ -33,6 +33,14 @@ export default function DesktopItem({
         e.stopPropagation();
         onSelect();
 
+        // Check if the click was on the image
+        if (
+            e.target instanceof HTMLElement &&
+            e.target.closest(".icon-container")
+        ) {
+            return;
+        }
+
         const rect = e.currentTarget.getBoundingClientRect();
         const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
