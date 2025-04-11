@@ -1,103 +1,138 @@
-import Image from "next/image";
+import Desktop from "../components/Desktop";
+import { DesktopItemType } from "../types";
+
+// Sample desktop items
+const desktopItems: DesktopItemType[] = [
+    {
+        id: "about",
+        title: "About Us",
+        icon: "📄",
+        content: (
+            <div>
+                <h2 className="text-lg font-bold mb-2">
+                    About Our Coworking Space
+                </h2>
+                <p className="mb-2">
+                    Welcome to Vintage Mac Coworking! We provide a unique
+                    workspace experience with a nostalgic twist.
+                </p>
+                <p>
+                    Our space features high-speed internet, comfortable
+                    workstations, meeting rooms, and complimentary coffee.
+                </p>
+            </div>
+        ),
+        defaultPosition: { x: 100, y: 100 },
+        defaultSize: { width: 350, height: 250 },
+    },
+    {
+        id: "pricing",
+        title: "Pricing",
+        icon: "💰",
+        content: (
+            <div>
+                <h2 className="text-lg font-bold mb-2">Membership Options</h2>
+                <ul className="space-y-2">
+                    <li className="border-b pb-1">
+                        <strong>Hot Desk:</strong> $25/day or $200/month
+                    </li>
+                    <li className="border-b pb-1">
+                        <strong>Dedicated Desk:</strong> $350/month
+                    </li>
+                    <li className="border-b pb-1">
+                        <strong>Private Office:</strong> Starting at $600/month
+                    </li>
+                    <li>
+                        <strong>Meeting Room:</strong> $30/hour
+                    </li>
+                </ul>
+            </div>
+        ),
+        defaultPosition: { x: 150, y: 150 },
+        defaultSize: { width: 300, height: 300 },
+    },
+    {
+        id: "hours",
+        title: "Hours",
+        icon: "🕒",
+        content: (
+            <div>
+                <h2 className="text-lg font-bold mb-2">Business Hours</h2>
+                <ul className="space-y-1">
+                    <li>
+                        <strong>Monday - Friday:</strong> 8:00 AM - 8:00 PM
+                    </li>
+                    <li>
+                        <strong>Saturday:</strong> 9:00 AM - 5:00 PM
+                    </li>
+                    <li>
+                        <strong>Sunday:</strong> Closed
+                    </li>
+                </ul>
+                <p className="mt-4 text-sm italic">
+                    Members with 24/7 access can use the space anytime!
+                </p>
+            </div>
+        ),
+        defaultPosition: { x: 200, y: 200 },
+        defaultSize: { width: 280, height: 220 },
+    },
+    {
+        id: "contact",
+        title: "Contact",
+        icon: "📞",
+        content: (
+            <div>
+                <h2 className="text-lg font-bold mb-2">Get In Touch</h2>
+                <p className="mb-2">
+                    We'd love to hear from you! Reach out to schedule a tour or
+                    learn more.
+                </p>
+                <ul className="space-y-1">
+                    <li>
+                        <strong>Email:</strong> hello@vintagemaccoworking.com
+                    </li>
+                    <li>
+                        <strong>Phone:</strong> (555) 123-4567
+                    </li>
+                    <li>
+                        <strong>Address:</strong> 123 Main St, Anytown, CA 94000
+                    </li>
+                </ul>
+            </div>
+        ),
+        defaultPosition: { x: 250, y: 250 },
+        defaultSize: { width: 320, height: 250 },
+    },
+    {
+        id: "amenities",
+        title: "Amenities",
+        icon: "✨",
+        content: (
+            <div>
+                <h2 className="text-lg font-bold mb-2">Workspace Amenities</h2>
+                <ul className="space-y-1 list-disc pl-5">
+                    <li>High-speed fiber internet</li>
+                    <li>Ergonomic workstations</li>
+                    <li>Conference rooms with A/V equipment</li>
+                    <li>Phone booths for private calls</li>
+                    <li>Kitchen with complimentary coffee & tea</li>
+                    <li>Printing services</li>
+                    <li>Bike storage</li>
+                    <li>24/7 secure access (for members)</li>
+                    <li>Community events & networking</li>
+                </ul>
+            </div>
+        ),
+        defaultPosition: { x: 300, y: 300 },
+        defaultSize: { width: 350, height: 350 },
+    },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    return (
+        <main>
+            <Desktop items={desktopItems} />
+        </main>
+    );
 }
