@@ -161,7 +161,7 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
         type: "folder",
         position: { x: 100, y: 100 },
         defaultPosition: { x: 100, y: 100 },
-        defaultSize: { width: 400, height: 300 },
+        defaultSize: { width: 400, height: 400 },
         content: (
             <div className="flex flex-col items-center justify-center h-full">
                 <div className="mb-4">
@@ -180,7 +180,7 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
                         dir einen ruhigen Arbeitsplatz, eine Kaffee-Flatrate,
                         nette Menschen und einen Briefkasten für deine Post.
                     </p>
-                    <p>
+                    <p className="mb-4">
                         Bei uns findest du alles, was du für produktives
                         Arbeiten brauchst – inklusive kreativer Atmosphäre und
                         guter Anbindung.
