@@ -175,6 +175,16 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
                 <h1 className="text-xl font-bold mb-2">K-Working</h1>
                 <p className="text-sm text-center mb-4">Version 1.0.0</p>
                 <div className="text-xs text-center text-gray-600">
+                    <p className="mb-2">
+                        Dein flexibles & zentrales Büro in Offenbach. Wir bieten
+                        dir einen ruhigen Arbeitsplatz, eine Kaffee-Flatrate,
+                        nette Menschen und einen Briefkasten für deine Post.
+                    </p>
+                    <p>
+                        Bei uns findest du alles, was du für produktives
+                        Arbeiten brauchst – inklusive kreativer Atmosphäre und
+                        guter Anbindung.
+                    </p>
                     <p>© 2025 K-Working</p>
                     <p>All rights reserved.</p>
                 </div>

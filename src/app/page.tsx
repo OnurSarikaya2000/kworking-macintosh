@@ -4,32 +4,6 @@ import { DesktopItemType } from "../types";
 // Beispielhafte Desktop-Elemente
 const desktopItems: DesktopItemType[] = [
     {
-        id: "ueber-uns",
-        title: "Über uns",
-        icon: "/icons/about_us.png",
-        type: "folder",
-        position: { x: 100, y: 100 },
-        defaultPosition: { x: 100, y: 100 },
-        defaultSize: { width: 350, height: 300 },
-        content: (
-            <div>
-                <h2 className="text-lg font-bold mb-2">
-                    Willkommen bei K-Working
-                </h2>
-                <p className="mb-2">
-                    Dein flexibles & zentrales Büro in Offenbach. Wir bieten dir
-                    einen ruhigen Arbeitsplatz, eine Kaffee-Flatrate, nette
-                    Menschen und einen Briefkasten für deine Post.
-                </p>
-                <p>
-                    Bei uns findest du alles, was du für produktives Arbeiten
-                    brauchst – inklusive kreativer Atmosphäre und guter
-                    Anbindung.
-                </p>
-            </div>
-        ),
-    },
-    {
         id: "k-working-website",
         title: "K-Working",
         icon: "/icons/browser.png",
