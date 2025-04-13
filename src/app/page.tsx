@@ -164,7 +164,7 @@ const desktopItems: DesktopItemType[] = [
 
 export default function Home() {
     return (
-        <main className="min-h-screen bg-[#008080]">
+        <main className="min-h-screen bg-[#BFF2CE]">
             <Desktop items={desktopItems} />
         </main>
     );

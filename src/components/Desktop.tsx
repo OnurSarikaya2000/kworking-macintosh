@@ -193,7 +193,15 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
     };
 
     return (
-        <div className="relative h-screen w-screen bg-[#d9d9d9] overflow-hidden">
+        <div
+            className="relative h-screen w-screen overflow-hidden"
+            style={{
+                backgroundImage: 'url("/wallpaper.png")',
+                backgroundSize: "120px 130px",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
+        >
             <MenuBar onAboutClick={handleAboutClick} />
 
             {/* Desktop Items */}
