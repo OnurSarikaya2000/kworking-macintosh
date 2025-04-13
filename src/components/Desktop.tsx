@@ -196,10 +196,17 @@ export default function Desktop({ items: initialItems }: DesktopProps) {
         <div
             className="relative h-screen w-screen overflow-hidden"
             style={{
-                backgroundImage: 'url("/wallpaper.png")',
-                backgroundSize: "120px 130px",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
+                background: `
+                    url("/wallpaper.png") center/120px 130px no-repeat,
+                    linear-gradient(45deg, #BDF3CD 25%, transparent 25%),
+                    linear-gradient(-45deg, #BDF3CD 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #BDF3CD 75%),
+                    linear-gradient(-45deg, transparent 75%, #BDF3CD 75%),
+                    #a3d2b1
+                `,
+                backgroundSize:
+                    "120px 130px, 20px 20px, 20px 20px, 20px 20px, 20px 20px",
+                backgroundPosition: "center, 0 0, 0 10px, 10px -10px, -10px 0",
             }}
         >
             <MenuBar onAboutClick={handleAboutClick} />
