@@ -150,16 +150,16 @@ const desktopItems: DesktopItemType[] = [
             </div>
         ),
     },
-    {
-        id: "photo-library",
-        title: "Fotos",
-        icon: "/icons/photos.png",
-        type: "photo-library",
-        position: { x: 350, y: 100 },
-        defaultPosition: { x: 350, y: 100 },
-        defaultSize: { width: 800, height: 600 },
-        content: null,
-    },
+    // {
+    //     id: "photo-library",
+    //     title: "Fotos",
+    //     icon: "/icons/photos.png",
+    //     type: "photo-library",
+    //     position: { x: 350, y: 100 },
+    //     defaultPosition: { x: 350, y: 100 },
+    //     defaultSize: { width: 800, height: 600 },
+    //     content: null,
+    // },
 ];
 
 export default function Home() {
